@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --color-pure-black: #000000;
+  --color-charcoal-900: #1a1a1a;
+  --color-charcoal-800: #2c2c2c;
+  --color-pure-white: #ffffff;
+  --color-off-white: #f5f5f5;
+  
+  --bg-primary: var(--color-pure-black);
+  --text-primary: var(--color-off-white);
+  --text-secondary: var(--color-charcoal-800);
+  
+  --font-sans: 'Inter', sans-serif;
+  
+  /* Standardized Typography Scale */
+  --text-hero: clamp(5rem, 12vw, 14rem); 
+  --text-h1: clamp(4rem, 10vw, 10rem); 
+  --text-h2: clamp(2rem, 5vw, 4rem);
+  --text-body: 1.125rem;
+  --text-caption: 0.75rem;
+
+  --tracking-tighter: -0.06em;
+  --tracking-tight: -0.04em;
+  --tracking-normal: 0em;
+  --tracking-widest: 0.3em;
+
+  --header-height: 100px;
+  --section-padding: clamp(6rem, 15vh, 12rem);
+  --container-max-width: 90rem;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Headings */
+h1, h2, h3 {
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.85;
+}
+
+.hero-title {
+  font-size: var(--text-hero);
+  letter-spacing: var(--tracking-tighter);
+}
+
+.page-title {
+  font-size: var(--text-h1);
+  letter-spacing: var(--tracking-tighter);
+}
+
+.section-title {
+  font-size: var(--text-h2);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Utilities */
+.container-standard {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.section-spacing {
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
+}
+
+.page-pt {
+  padding-top: calc(var(--header-height) + 4rem);
+}
+
+/* Reveal Animations */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.is-inview {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-pure-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal-800);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-charcoal-900);
+}
