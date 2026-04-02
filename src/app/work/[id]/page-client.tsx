@@ -19,6 +19,7 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [detectedOrientation, setDetectedOrientation] = useState<'landscape' | 'portrait'>(project.videoOrientation || 'landscape');
 
   // Consolidate images for lightbox (Hero + Gallery)
   const lightboxImages: string[] = [];
@@ -41,7 +42,16 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
     }
   };
 
-  const isPortrait = project.videoOrientation === 'portrait';
+  const handleLoadedMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    if (video.videoHeight > video.videoWidth) {
+      setDetectedOrientation('portrait');
+    } else {
+      setDetectedOrientation('landscape');
+    }
+  };
+
+  const isPortraitLayout = detectedOrientation === 'portrait';
 
   return (
     <div className="page-pt min-h-screen">
@@ -72,7 +82,7 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
         <section className={`container-standard mb-32 flex justify-center`}>
           <div 
             className={`relative overflow-hidden bg-white/5 transition-all duration-700 w-full ${
-              isPortrait ? 'max-w-md aspect-9/16' : 'aspect-video'
+              isPortraitLayout ? 'max-w-md aspect-9/16' : 'aspect-video'
             } ${!project.videoUrl ? 'cursor-zoom-in' : ''}`}
             onClick={() => !project.videoUrl && openLightbox(0)}
           >
@@ -111,8 +121,9 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
                   ref={videoRef}
                   src={project.videoUrl}
                   controls={isPlaying}
-                  preload="auto"
+                  preload="metadata"
                   playsInline
+                  onLoadedMetadata={handleLoadedMetadata}
                   onCanPlayThrough={() => setVideoLoaded(true)}
                   className={`w-full h-full object-cover transition-opacity duration-1000 ${
                     videoLoaded && isPlaying ? 'opacity-100' : 'opacity-0'
@@ -199,6 +210,7 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
     </div>
   );
 }
+
 
 
 
