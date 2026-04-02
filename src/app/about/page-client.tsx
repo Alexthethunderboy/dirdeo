@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Footer from '@/components/Footer';
 
 export default function AboutClient({ cms }: { cms: any }) {
-  const clients = cms.about.clientRegistry;
+  const clients = cms.about.clientRegistry || [];
+  const curations = cms.about.curation || [];
   return (
     <div className="page-pt min-h-screen">
       <div className="container-standard grid grid-cols-1 md:grid-cols-2 gap-20 pb-32">
@@ -40,7 +41,7 @@ export default function AboutClient({ cms }: { cms: any }) {
               {cms.about.heroSubtitle}
             </p>
             <div className="space-y-8 text-lg opacity-60 leading-relaxed font-medium">
-              {cms.about.bioParagraphs.map((para: string, idx: number) => (
+              {(cms.about.bioParagraphs || []).map((para: string, idx: number) => (
                 <p key={idx}>{para}</p>
               ))}
             </div>
@@ -78,7 +79,7 @@ export default function AboutClient({ cms }: { cms: any }) {
           >
             <h2 className="section-title mb-12">{cms.about.curationTitle || "Curation"}</h2>
             <ul className="space-y-6">
-              {cms.about.curation.map((item: any, idx: number) => (
+              {curations.map((item: any, idx: number) => (
                 <li key={idx} className="flex flex-col md:flex-row justify-between md:items-baseline border-b border-white/10 pb-6 group cursor-default">
                   <span className="text-[10px] font-bold uppercase tracking-widest opacity-30 group-hover:opacity-100 transition-opacity mb-2 md:mb-0">
                     {item.label}

@@ -1,64 +1,83 @@
-# 🎥 Sanity Studio User Guide
+# 🎥 How to Manage Your Website (Admin Guide)
 
-Welcome to the **DirDeo Studio CMS**. This guide explains how to manage your portfolio, site settings, and about page through the `/admin` portal.
-
----
-
-## 🚀 Getting Started
-
-1.  Navigate to `http://localhost:3000/admin`.
-2.  Log in with your Sanity credentials (Google, GitHub, or Email).
-3.  On the left-hand sidebar, you will see your three main content categories: **Project**, **About Page**, and **Global Settings**.
+Welcome to your website's control center! This guide is designed to help you update your portfolio and site information without needing any technical or coding knowledge.
 
 ---
 
-## 🛠 Managing Content
+## 🚀 1. Getting Started
 
-### 1. Projects (Portfolio)
-This is where you manage your photography and videography works.
-
--   **Title/Category/Year**: Standard portfolio metadata.
--   **Main Hero Image**: This image acts as the cover art for the project and is shown on the home grid.
--   **Videography (Large Files)**: To add a video project, upload an `.mp4` file to the **Main Video File** field.
--   **Photography Gallery**: For photo projects, add multiple images to the **Project Gallery** array. These will display in a beautiful grid layout on the project's detail page.
--   **Order**: Use a number (0, 1, 2...) to control where this project appears in your portfolio grid.
-
-### 2. About Page
-Manage your creative profile and client history.
-
--   **Hero Subtitle**: The punchy headline describing your role.
--   **Portrait Image**: Your professional portrait (replacing the placeholder).
--   **Section Titles**: You can rename "Profile", "Client Registry", and "Curation" to whatever you prefer.
--   **Bio Paragraphs**: A list of paragraphs that make up your main story.
--   **Client Registry**: A simple list of brand names you've worked with.
--   **Curation Highlights**: A list of awards or key experiences (Label/Value pairs).
-
-### 3. Global Settings
-These settings control the "bones" of your website.
-
--   **Site Name / Logo**: Updates your brand identity in the header and footer.
--   **Header Navigation**: You can add, remove, or reorder the links in your top navigation menu.
--   **Contact Details**: Update your email, phone, location (e.g., "London / LA"), and availability status.
--   **Footer Call to Action**: The large headline at the bottom of every page (e.g., "Let's Create Together").
+1.  **Open the Admin Link**: Go to [https://dirdeo.vercel.app/admin](https://dirdeo.vercel.app/admin).
+2.  **Log In**: Sign in with your account (Google or GitHub).
+3.  **The Sidebar**: Look at the left-hand menu. This is where all your content lives:
+    -   **Projects**: Your photography and video work.
+    -   **About Page**: Your bio, client list, and portrait.
+    -   **Global Settings**: Your logo, contact info, and navigation menu.
 
 ---
 
-## ⚡️ Important Concepts
+## 🏗 2. Adding or Updating Work (Projects)
 
-### **DRAFTS vs. PUBLISHED**
-When you edit a field, Sanity saves a "Draft" automatically. These changes are **only** visible to you in the Studio. 
--   To show the changes on your live website, you **must** click the green **Publish** button at the bottom right of the page.
+You can create new projects or edit existing ones. The website is "smart" and will change its layout based on what you upload.
 
-### **IMAGE HOTSPOTS**
-When you upload an image, you can click the **Edit** (pencil) icon on the image to open the hotspot selector. Drag the circle to the most important part of the photo (e.g., a person's face). This ensures that the image is cropped correctly across all screen sizes.
+### **Basic Information**
+-   **Title**: The name of the project (e.g., "NOCTURNAL ECHOES").
+-   **Client / Category / Year**: Fill these in to show them next to the project details.
+-   **Main Cover Image**: This is the "poster" for your project. It shows up in the gallery grid on your home page.
 
-### **LARGE FILE UPLOADS**
-The CMS supports high-quality video files. For the best performance on your website:
--   **Format**: Use H.264 or HEVC `.mp4`.
--   **Size**: Aim for under 50MB per video to keep your site loading fast.
+### **Adding Video or Photos**
+-   📽 **If it's a Video Project**: Simply upload your video file to the **Main Video File** box. The website will automatically turn the project page into an immersive video player.
+-   📸 **If it's a Photo Project**: Add multiple images to the **Project Gallery** section. They will show up in a beautiful, artistic grid layout.
+
+### **Sorting Your Work**
+-   **Order**: Use a number (0, 1, 2...) to choose which project appears first. 0 is the very top!
+
+---
+
+## 👤 3. Updating Your "About" Page
+
+This is where you tell your story.
+
+-   **Your Portrait**: Upload a new photo of yourself. The site will automatically add a cool black-and-white to color effect when hovered.
+-   **Mission Statement (Subtitle)**: A bold sentence or two about your vision.
+-   **Client List**: Add the names of brands you've worked with. They will appear in a big, bold list on the page.
+-   **Highlights**: Use this for awards or education (e.g., "Vogue Artist of the Year").
+
+---
+
+## ⚙️ 4. Changing Site Basics (Global Settings)
+
+-   **Contact Details**: Change your email or phone number here, and it will update **everywhere** on the site automatically.
+-   **Navigation Menu**: Want to add a new link to the top of your site? Add it here. Just give it a name (like "Archive") and a destination (like `/work`).
+-   **Footer Headline**: That big "Let's Create Together" text at the bottom? You can change it here anytime.
+
+---
+
+## 📂 5. Two Golden Rules for a Great Site
+
+### **Rule 1: Always Click "Publish"**
+When you make a change, Sanity saves a "Draft" (you'll see a yellow bar). **These changes are not visible to the public yet.** 
+-   To make your changes go live, you **MUST** click the green **Publish** button at the bottom right.
+
+### **Rule 2: Use "Hotspots" for Better Photos**
+If you upload a photo and it looks "cut off" on mobile phones:
+1.  Click the tiny **Pencil** icon on the image in the admin area.
+2.  Drag the circle to the most important part of the photo (like a face or a focal point).
+3.  Now, the website will always make sure that part of the photo is visible, no matter the screen size.
+
+---
+
+## 🛠 Troubleshooting
+
+### **"I don't see my changes yet!"**
+-   Make sure you clicked the green **Publish** button.
+-   Wait about 10-20 seconds.
+-   Refresh your browser window (`Cmd + R` on Mac or `F5` on Windows).
+
+### **"An image isn't loading"**
+-   Check if the file type is correct (use `.jpg` or `.png` for photos, `.mp4` for videos).
+-   If you just bought a new website address (domain), your tech team might need to "authorize" it in the background settings once.
 
 ---
 
 > [!TIP]
-> **Need to see changes immediately?** 
-> After clicking "Publish" in the CMS, it may take a second for the new data to reach your frontend. Simply refresh your browser window to see the update.
+> **Keep your videos short!** For the best speed, try to keep video files under 50MB. This ensures your visitors have a smooth experience.

@@ -10,9 +10,11 @@ export default function Footer({ cms }: { cms: CmsData }) {
             {cms.settings.footerHeadline || "Let's Create Together"}
           </h2>
           <div className="flex gap-8 text-sm uppercase tracking-widest font-bold">
-            <a href={`mailto:${cms.settings.contactEmail}`} className="hover:opacity-50 transition-all duration-300 border-b border-transparent hover:border-white">Email</a>
-            {Object.entries(cms.settings.socials).map(([social, url]) => (
-              <a key={social} href={url as string} className="hover:opacity-50 transition-all duration-300 border-b border-transparent hover:border-white">{social}</a>
+            {cms.settings.contactEmail && (
+              <a href={`mailto:${cms.settings.contactEmail}`} className="hover:opacity-50 transition-all duration-300 border-b border-transparent hover:border-white">Email</a>
+            )}
+            {cms.settings.socials && Object.entries(cms.settings.socials).map(([social, url]) => (
+              url ? <a key={social} href={url as string} className="hover:opacity-50 transition-all duration-300 border-b border-transparent hover:border-white">{social}</a> : null
             ))}
           </div>
         </div>

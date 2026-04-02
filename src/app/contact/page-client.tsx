@@ -71,8 +71,8 @@ export default function ContactClient({ cms }: { cms: any }) {
           </form>
 
           <section className="mt-48 flex flex-col md:flex-row justify-between items-center opacity-40 border-t border-white/10 pt-12 gap-8 md:gap-0">
-              {Object.entries(cms.settings.socials).map(([platform, url]) => (
-                <a key={platform} href={url as string} className="hover:opacity-100 transition-opacity">{platform}</a>
+              {cms.settings.socials && Object.entries(cms.settings.socials).map(([platform, url]) => (
+                url ? <a key={platform} href={url as string} className="hover:opacity-100 transition-opacity">{platform}</a> : null
               ))}
             <p className="text-[10px] uppercase tracking-widest font-bold opacity-60">Status: {cms.settings.availabilityStatus}</p>
           </section>
