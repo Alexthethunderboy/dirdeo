@@ -34,18 +34,20 @@ export default function Header({ settings }: { settings: any }) {
       >
         <Link href="/" className="flex items-center group">
           {settings.logoUrl ? (
-            <div className={`relative transition-all duration-700 ${scrolled ? 'h-5 w-24' : 'h-6 w-32'}`}>
+            <div className={`relative transition-all duration-700 overflow-hidden rounded-full border border-white/10 ${scrolled ? 'h-10 w-10' : 'h-12 w-12'}`}>
               <Image 
                 src={settings.logoUrl} 
                 alt={settings.siteName} 
                 fill 
-                className="object-contain object-left group-hover:opacity-70 transition-opacity" 
+                className="object-cover group-hover:scale-110 transition-transform duration-500" 
               />
             </div>
           ) : (
-            <span className={`font-bold tracking-tighter uppercase transition-all duration-700 group-hover:opacity-70 ${scrolled ? 'text-lg' : 'text-2xl'}`}>
-              {settings.siteName}
-            </span>
+            <div className={`flex items-center justify-center rounded-full border border-white/20 transition-all duration-700 ${scrolled ? 'h-10 w-10' : 'h-12 w-12'}`}>
+              <span className={`font-bold tracking-tighter uppercase transition-all duration-700 group-hover:opacity-70 ${scrolled ? 'text-sm' : 'text-lg'}`}>
+                {settings.siteName.charAt(0)}
+              </span>
+            </div>
           )}
         </Link>
         

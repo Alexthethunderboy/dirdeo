@@ -1,12 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Footer from '@/components/Footer';
+import ImageLightbox from '@/components/ImageLightbox';
 
 export default function AboutClient({ cms }: { cms: any }) {
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
   const clients = cms.about.clientRegistry || [];
   const curations = cms.about.curation || [];
+
+  const portraitUrl = cms.about.portraitUrl || "/portrait.png";
+
   return (
     <div className="page-pt min-h-screen">
       <div className="container-standard grid grid-cols-1 md:grid-cols-2 gap-20 pb-32">
@@ -15,13 +23,14 @@ export default function AboutClient({ cms }: { cms: any }) {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative sticky top-40 h-[70vh] md:h-[80vh] bg-neutral-900 group border border-white/5 overflow-hidden"
+          className="relative sticky top-40 h-[70vh] md:h-[80vh] bg-neutral-900 group border border-white/5 overflow-hidden cursor-zoom-in"
+          onClick={() => setIsLightboxOpen(true)}
         >
           {/* Abstract Offset Frame */}
           <div className="absolute inset-4 border border-white/10 opacity-70 z-10 pointer-events-none group-hover:inset-6 transition-all duration-700"></div>
           
           <Image 
-            src={cms.about.portraitUrl || "/portrait.png"}
+            src={portraitUrl}
             alt="Portrait"
             fill
             className="object-cover grayscale group-hover:grayscale-0 transition-grayscale duration-1000"
@@ -95,6 +104,15 @@ export default function AboutClient({ cms }: { cms: any }) {
       </div>
 
       <Footer cms={cms} />
+
+      <ImageLightbox 
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+        images={[portraitUrl]}
+        currentIndex={lightboxIndex}
+        setCurrentIndex={setLightboxIndex}
+      />
     </div>
   );
 }
+

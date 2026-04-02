@@ -1,15 +1,34 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Footer from '@/components/Footer';
+import ImageLightbox from '@/components/ImageLightbox';
 import type { CmsData, Project } from '@/lib/cms';
 
 export default function ProjectClient({ cms }: { cms: CmsData }) {
   const { id } = useParams();
   const project = cms.projects.find((p: Project) => p.id === id) || cms.projects[0];
+
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Consolidate images for lightbox (Hero + Gallery)
+  const lightboxImages = [];
+  if (!project.videoUrl && project.image) {
+    lightboxImages.push(project.image);
+  }
+  if (project.gallery && project.gallery.length > 0) {
+    lightboxImages.push(...project.gallery);
+  }
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setIsLightboxOpen(true);
+  };
 
   return (
     <div className="page-pt min-h-screen">
@@ -38,7 +57,10 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
 
         {/* Hero Media: Video or Image */}
         <section className="container-standard mb-32">
-          <div className="relative aspect-video w-full overflow-hidden bg-white/5">
+          <div 
+            className={`relative aspect-video w-full overflow-hidden bg-white/5 ${!project.videoUrl ? 'cursor-zoom-in' : ''}`}
+            onClick={() => !project.videoUrl && openLightbox(0)}
+          >
             {project.videoUrl ? (
               <video 
                 src={project.videoUrl}
@@ -65,25 +87,36 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
         {project.gallery && project.gallery.length > 0 && (
           <section className="container-standard mb-32">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {project.gallery.map((img: string, idx: number) => (
-                <div key={idx} className="relative aspect-[4/5] w-full overflow-hidden group">
-                  <Image 
-                    src={img} 
-                    alt={`${project.title} gallery ${idx}`} 
-                    fill 
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-4 border border-white/5 pointer-events-none"></div>
-                </div>
-              ))}
+              {project.gallery.map((img: string, idx: number) => {
+                // index in the lightboxImages array (Hero is 0 if it exists)
+                const globalIdx = !project.videoUrl ? idx + 1 : idx;
+                return (
+                  <div 
+                    key={idx} 
+                    className="relative aspect-[4/5] w-full overflow-hidden group cursor-zoom-in"
+                    onClick={() => openLightbox(globalIdx)}
+                  >
+                    <Image 
+                      src={img} 
+                      alt={`${project.title} gallery ${idx}`} 
+                      fill 
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-4 border border-white/5 pointer-events-none"></div>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}
 
-        {/* Closing Image or Secondary Content */}
-        {!project.gallery && (
+        {/* Closing Image or Secondary Content if no gallery */}
+        {!project.gallery && !project.videoUrl && (
           <section className="container-standard mb-32">
-            <div className="relative aspect-video w-full overflow-hidden">
+            <div 
+              className="relative aspect-video w-full overflow-hidden cursor-zoom-in"
+              onClick={() => openLightbox(0)}
+            >
               <Image 
                 src={project.image} 
                 alt={project.title} 
@@ -107,6 +140,15 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
       </div>
 
       <Footer cms={cms} />
+
+      <ImageLightbox 
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+        images={lightboxImages}
+        currentIndex={lightboxIndex}
+        setCurrentIndex={setLightboxIndex}
+      />
     </div>
   );
 }
+

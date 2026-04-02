@@ -13,9 +13,18 @@ const inter = Inter({
 
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await getCmsData();
+  const logoUrl = cms.settings.logoUrl || "/favicon.ico";
+  
   return {
     title: `${cms.settings.siteName} | Premium Videography & Photography`,
     description: "A minimalist portfolio for high-end videography and photography projects.",
+    icons: {
+      icon: [
+        { url: logoUrl, sizes: "any" },
+        { url: logoUrl, type: "image/png" }
+      ],
+      apple: logoUrl,
+    }
   };
 }
 
