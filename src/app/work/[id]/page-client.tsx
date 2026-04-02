@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { Play } from 'lucide-react';
 import Footer from '@/components/Footer';
 import ImageLightbox from '@/components/ImageLightbox';
 import type { CmsData, Project } from '@/lib/cms';
@@ -12,12 +13,15 @@ import type { CmsData, Project } from '@/lib/cms';
 export default function ProjectClient({ cms }: { cms: CmsData }) {
   const { id } = useParams();
   const project = cms.projects.find((p: Project) => p.id === id) || cms.projects[0];
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Consolidate images for lightbox (Hero + Gallery)
-  const lightboxImages = [];
+  const lightboxImages: string[] = [];
   if (!project.videoUrl && project.image) {
     lightboxImages.push(project.image);
   }
@@ -29,6 +33,15 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
     setLightboxIndex(index);
     setIsLightboxOpen(true);
   };
+
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const isPortrait = project.videoOrientation === 'portrait';
 
   return (
     <div className="page-pt min-h-screen">
@@ -55,21 +68,57 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
           </div>
         </header>
 
-        {/* Hero Media: Video or Image */}
-        <section className="container-standard mb-32">
+        {/* Hero Media: Video Player or Image */}
+        <section className={`container-standard mb-32 flex justify-center`}>
           <div 
-            className={`relative aspect-video w-full overflow-hidden bg-white/5 ${!project.videoUrl ? 'cursor-zoom-in' : ''}`}
+            className={`relative overflow-hidden bg-white/5 transition-all duration-700 w-full ${
+              isPortrait ? 'max-w-md aspect-9/16' : 'aspect-video'
+            } ${!project.videoUrl ? 'cursor-zoom-in' : ''}`}
             onClick={() => !project.videoUrl && openLightbox(0)}
           >
             {project.videoUrl ? (
-              <video 
-                src={project.videoUrl}
-                autoPlay 
-                muted 
-                loop 
-                playsInline
-                className="w-full h-full object-cover"
-              />
+              <div className="relative w-full h-full">
+                {/* Placeholder Image while video loads OR hasn't started playing */}
+                <Image 
+                  src={project.image} 
+                  alt={project.title} 
+                  fill 
+                  className={`object-cover transition-opacity duration-1000 z-10 pointer-events-none ${
+                    isPlaying ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  priority
+                />
+                
+                {/* Play Button Overlay */}
+                <AnimatePresence>
+                  {!isPlaying && (
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.1 }}
+                      onClick={handlePlay}
+                      className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 hover:bg-black/40 transition-colors group"
+                      aria-label="Play film"
+                    >
+                      <div className="w-24 h-24 rounded-full border border-white/30 flex items-center justify-center group-hover:scale-110 group-hover:border-white transition-all duration-500 bg-black/10 backdrop-blur-sm">
+                        <Play size={32} fill="white" className="ml-1" />
+                      </div>
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+
+                <video 
+                  ref={videoRef}
+                  src={project.videoUrl}
+                  controls={isPlaying}
+                  preload="auto"
+                  playsInline
+                  onCanPlayThrough={() => setVideoLoaded(true)}
+                  className={`w-full h-full object-cover transition-opacity duration-1000 ${
+                    videoLoaded && isPlaying ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              </div>
             ) : (
               <Image 
                 src={project.image} 
@@ -88,7 +137,6 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
           <section className="container-standard mb-32">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {project.gallery.map((img: string, idx: number) => {
-                // index in the lightboxImages array (Hero is 0 if it exists)
                 const globalIdx = !project.videoUrl ? idx + 1 : idx;
                 return (
                   <div 
@@ -151,4 +199,6 @@ export default function ProjectClient({ cms }: { cms: CmsData }) {
     </div>
   );
 }
+
+
 

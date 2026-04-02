@@ -9,6 +9,7 @@ export interface Project {
   year: string;
   image: string;
   videoUrl?: string;
+  videoOrientation?: 'landscape' | 'portrait';
   gallery?: string[];
   description: string;
 }
@@ -23,6 +24,7 @@ export interface CmsData {
     availabilityStatus: string;
     footerHeadline: string;
     homeHeroVideoUrl?: string;
+    homeHeroImageUrl?: string;
     homeWorksTitle?: string;
     homeViewAllText?: string;
     navLinks?: { name: string; href: string }[];
@@ -93,6 +95,7 @@ const CMS_QUERY = groq`{
     availabilityStatus,
     footerHeadline,
     "homeHeroVideoUrl": homeHeroVideo.asset->url,
+    "homeHeroImageUrl": homeHeroImage.asset->url,
     homeWorksTitle,
     homeViewAllText,
     socials,
@@ -106,6 +109,7 @@ const CMS_QUERY = groq`{
     year,
     "image": image.asset->url,
     "videoUrl": videoFile.asset->url,
+    videoOrientation,
     "gallery": gallery[].asset->url,
     description
   },
@@ -148,6 +152,7 @@ export async function getCmsData(): Promise<CmsData> {
             year: p.year || '',
             image: p.image || '',
             videoUrl: p.videoUrl || undefined,
+            videoOrientation: p.videoOrientation || 'landscape',
             gallery: Array.isArray(p.gallery) ? p.gallery.filter(Boolean) : undefined,
             description: p.description || '',
           }))

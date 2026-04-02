@@ -25,8 +25,10 @@ You can create new projects or edit existing ones. The website is "smart" and wi
 -   **Main Cover Image**: This is the "poster" for your project. It shows up in the gallery grid on your home page.
 
 ### **Adding Video or Photos**
--   📽 **If it's a Video Project**: Simply upload your video file to the **Main Video File** box. The website will automatically turn the project page into an immersive video player.
--   📸 **If it's a Photo Project**: Add multiple images to the **Project Gallery** section. They will show up in a beautiful, artistic grid layout.
+- 📽 **If it's a Video Project**: Upload your `.mp4` file to the **Main Video File** box. 
+    - **Orientation**: Choose **Landscape** for films or **Portrait** for short-form reels/social content. 
+    - **Sound**: The website will show a "Play" button. Once clicked, your video will play with full audio and onscreen controls.
+- 📸 **If it's a Photo Project**: Add multiple images to the **Project Gallery** section. They will show up in a beautiful, artistic grid layout.
 
 ### **Sorting Your Work**
 -   **Order**: Use a number (0, 1, 2...) to choose which project appears first. 0 is the very top!
@@ -79,5 +81,33 @@ If you upload a photo and it looks "cut off" on mobile phones:
 
 ---
 
+## 🎞️ Pro Video Upload Guide
+
+If you are uploading high-quality cinemtaography (>100MB), the standard web browser may get **"stuck"** during upload. To ensure a smooth experience for both you and your visitors, follow these steps:
+
+### 1. Compression is Mandatory
+A raw 500MB file will make your website very slow. You should aim for **under 50MB** for a project film and **under 10MB** for the home background loop.
+
+**Recommended Tool:** [Handbrake](https://handbrake.fr/) (Free & Open Source)
+
+**Best Settings for Filmport:**
+1. **Format:** MP4
+2. **Dimensions:** 1080p (1920x1080) — *4K is often too heavy for web backgrounds.*
+3. **Video Codec:** H.264
+4. **Framerate:** Same as source (or 24 / 23.976)
+5. **Quality:** "Constant Quality" around 22-24.
+6. **Web Optimized:** **Check this box!** (It allows the video to start playing before it finishes downloading).
+
+### 2. Loading Strategy
+The site is built to show your **Main Hero Image** first. Even if a video is still buffering, your visitors will see a beautiful high-res image immediately.
+
+- **For Projects**: Always upload a high-quality `Main Hero Image`.
+- **For Home Page**: Use the `Home Hero Placeholder Image` field in Global Settings.
+
 > [!TIP]
-> **Keep your videos short!** For the best speed, try to keep video files under 50MB. This ensures your visitors have a smooth experience.
+> **Stuck on Upload?** If Sanity hangs at 99%, it usually means the file is too heavy for the browser to process. Lower the bitrate in Handbrake and try again!
+
+---
+
+## 🛠️ Need Help?
+Contact your development team if you encounter persistent upload issues or need to host films larger than 1GB (which may require a dedicated streaming service like Vimeo Pro).

@@ -64,7 +64,18 @@ export const settings = defineType({
       name: 'homeHeroVideo',
       title: 'Home Hero Video File',
       type: 'file',
-      options: { accept: 'video/*' },
+      options: { 
+        accept: 'video/mp4,video/x-m4v,video/*',
+        storeOriginalFilename: true,
+      },
+      description: 'Keep home videos under 20MB for fast landing page performance.',
+    }),
+    defineField({
+      name: 'homeHeroImage',
+      title: 'Home Hero Placeholder Image',
+      type: 'image',
+      description: 'Shown immediately while the video is loading.',
+      options: { hotspot: true },
     }),
     defineField({
       name: 'homeWorksTitle',

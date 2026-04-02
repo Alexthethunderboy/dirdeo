@@ -51,9 +51,24 @@ export const project = defineType({
       title: 'Main Video File (Large Files Supported)',
       type: 'file',
       options: {
-        accept: 'video/*',
+        accept: 'video/mp4,video/x-m4v,video/*',
+        storeOriginalFilename: true,
       },
-      description: 'Upload your videography project here. High-quality .mp4 files recommended.',
+      description: 'Important: To prevent the "stuck" issue, try to compress files over 100MB using Handbrake (H.264 MP4).',
+    }),
+    defineField({
+      name: 'videoOrientation',
+      title: 'Video Orientation',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Landscape (16:9)', value: 'landscape' },
+          { title: 'Portrait (9:16)', value: 'portrait' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'landscape',
+      description: 'Choose portrait for short-form reels/social content.',
     }),
     defineField({
       name: 'gallery',

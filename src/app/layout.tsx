@@ -13,7 +13,9 @@ const inter = Inter({
 
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await getCmsData();
-  const logoUrl = cms.settings.logoUrl || "/favicon.ico";
+  const logoUrl = cms.settings.logoUrl 
+    ? `${cms.settings.logoUrl}?w=64&h=64&fit=crop&mask=ellipse` 
+    : "/favicon.ico";
   
   return {
     title: `${cms.settings.siteName} | Premium Videography & Photography`,

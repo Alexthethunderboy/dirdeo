@@ -1,23 +1,38 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 
 export default function PageClient({ cms }: { cms: any }) {
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const projects = cms.projects.slice(0, 4);
+
   return (
     <div className="relative">
       {/* Hero Section */}
-      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden">
+      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden bg-neutral-900">
         <div className="absolute inset-0 z-0">
+          {/* Placeholder Image while video loads */}
+          {cms.settings.homeHeroImageUrl && (
+            <Image 
+              src={cms.settings.homeHeroImageUrl}
+              alt="Background Placeholder"
+              fill
+              className={`object-cover grayscale opacity-60 transition-opacity duration-2000 ${videoLoaded ? 'opacity-0' : 'opacity-60'}`}
+              priority
+            />
+          )}
+
           <video 
             autoPlay 
             muted 
             loop 
             playsInline
-            className="w-full h-full object-cover grayscale opacity-60"
+            onCanPlayThrough={() => setVideoLoaded(true)}
+            className={`w-full h-full object-cover grayscale transition-opacity duration-2000 ${videoLoaded ? 'opacity-60' : 'opacity-0'}`}
             src={cms.settings.homeHeroVideoUrl || "https://player.vimeo.com/external/370331493.sd.mp4?s=7b99635da247f33d7b43f9a77033a39e83344605&profile_id=139&oauth2_token_id=57447761"}
           />
           <div className="absolute inset-0 bg-black/40"></div>
